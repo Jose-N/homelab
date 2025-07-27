@@ -3,7 +3,11 @@ resource "proxmox_lxc" "test" {
   hostname     = "lxc-test"
   ostemplate   = "local:vztmpl/ubuntu-25.04-standard_25.04-1.1_amd64.tar.zst"
   password     = "BasicLXCContainer"
+  memory       = "2G"
+  onboot       = true
+  start        = true
   unprivileged = true
+  vmid         = 100
 
   // Terraform will crash without rootfs defined
   rootfs {
