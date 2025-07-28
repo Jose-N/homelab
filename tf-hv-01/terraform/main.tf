@@ -8,6 +8,7 @@ resource "proxmox_lxc" "k8s-control" {
   onboot       = true
   start        = true
   unprivileged = false
+  vmid         = 100
 
   // Terraform will crash without rootfs defined
   rootfs {
@@ -33,6 +34,7 @@ resource "proxmox_lxc" "k8s-worker-001" {
   onboot       = true
   start        = true
   unprivileged = false
+  vmid         = 101
 
   // Terraform will crash without rootfs defined
   rootfs {
@@ -58,6 +60,7 @@ resource "proxmox_lxc" "k8s-worker-002" {
   onboot       = true
   start        = true
   unprivileged = false
+  vmid         = 102
 
   // Terraform will crash without rootfs defined
   rootfs {
