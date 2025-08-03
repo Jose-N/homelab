@@ -2,6 +2,11 @@
 Contains Terraform, Ansible, an scripts for setting up our Homelab
 
 ## Random Notes
+How to get LXC ipaddr
+```
+lxc-info -n container-name -iH
+```
+
 ### Terraform
 #### Setting up a new Proxomx server
 TODO: Script this out at some point
@@ -59,3 +64,7 @@ Then run:
 chmod +x /etc/rc.local
 reboot
 ```
+## Logic
+Why am I using K8s instead of just using docker?
+Why am I using Terraform?
+Why am I using LXC's instead of VM's?
