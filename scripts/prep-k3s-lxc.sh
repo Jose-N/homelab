@@ -1,5 +1,5 @@
 #!/bin/bash
-# /homelab/scripts/prep-k8s-lxc.sh
+# /homelab/scripts/prep-k3s-lxc.sh
 
 function set_lxc_permissions {
 echo "Setting LXC permissions for LXC: $1"
