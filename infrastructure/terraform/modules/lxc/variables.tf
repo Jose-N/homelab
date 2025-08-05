@@ -1,5 +1,4 @@
 # REQUIRED PARAMETERS
-
 variable "target_node" {
   description = "The name of the Proxmox node to be targeted for changes."
   type = string
@@ -32,6 +31,11 @@ variable "ssh_public_keys" {
 
 variable "rootfs_size" {
   description = "The size of the file system for the LXC"
+  type = string
+}
+
+variable "ip" {
+  description = "The ip to assign the LXC"
   type = string
 }
 

@@ -21,6 +21,6 @@ resource "proxmox_lxc" "lxc" {
   network {
     name   = "eth0"
     bridge = "vmbr0"
-    ip     = "dhcp"
+    ip     = var.ip
   }
 }

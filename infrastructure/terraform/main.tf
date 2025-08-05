@@ -1,41 +1,14 @@
-variable "ip_addr" {
-  type = string
-}
-
-variable "root_password" {
-  type = string
-}
-
-variable "target_node" {
-  type = string
-}
-
-variable "lxc_password" {
-  type = string
-}
-
-variable "ansible_public_key" {
-  type    = string
-  default = <<-EOT
-    ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAu8ek7XKU/Aw/oEmC3vPqVgPr6Iv10h3Q//7QMb35el jose.c.naylor@gmail.com
-  EOT
-}
-
-variable "k3s_nodes" {
-  description = "List of LXC configurations"
-  type = list(object({
-    hostname    = string
-    memory      = number
-    vmid        = number
-    rootfs_size = string
-  }))
-  default = [
-    { hostname = "k8s-server-001", memory = 2000, vmid = 100, rootfs_size = "16G" },
-    { hostname = "k8s-server-002", memory = 2000, vmid = 101, rootfs_size = "16G" },
-    { hostname = "k8s-server-003", memory = 2000, vmid = 102, rootfs_size = "16G" },
-    { hostname = "k8s-worker-001", memory = 1000, vmid = 200, rootfs_size = "16G" },
-    { hostname = "k8s-worker-002", memory = 1000, vmid = 201, rootfs_size = "16G" },
-  ]
+module "load_balancers" {
+  source          = "./modules/lxc"
+  for_each        = { for load_balancer in var.load_balancers : load_balancer.hostname => load_balancer }
+  target_node     = var.target_node
+  hostname        = each.value.hostname
+  lxc_password    = var.lxc_password
+  memory          = each.value.memory
+  vmid            = each.value.vmid
+  ssh_public_keys = var.ansible_public_key
+  rootfs_size     = each.value.rootfs_size
+  ip              = each.value.ip
 }
 
 module "k3s_nodes" {
@@ -48,6 +21,7 @@ module "k3s_nodes" {
   vmid            = each.value.vmid
   ssh_public_keys = var.ansible_public_key
   rootfs_size     = each.value.rootfs_size
+  ip              = each.value.ip
 }
 
 resource "null_resource" "k3s_node_setup" {
