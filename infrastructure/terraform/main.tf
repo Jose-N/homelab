@@ -5,6 +5,7 @@ module "load_balancers" {
   hostname        = each.value.hostname
   lxc_password    = var.lxc_password
   memory          = each.value.memory
+  start           = true
   vmid            = each.value.vmid
   ssh_public_keys = var.ansible_public_key
   rootfs_size     = each.value.rootfs_size
@@ -18,6 +19,7 @@ module "k3s_nodes" {
   hostname        = each.value.hostname
   lxc_password    = var.lxc_password
   memory          = each.value.memory
+  start           = false
   vmid            = each.value.vmid
   ssh_public_keys = var.ansible_public_key
   rootfs_size     = each.value.rootfs_size

@@ -19,6 +19,11 @@ variable "memory" {
   type = number
 }
 
+variable "start" {
+  description = "Boolean that determines if the LXC should start on creation"
+  type = bool
+}
+
 variable "vmid" {
   description = "The VM ID of the LXC"
   type = number

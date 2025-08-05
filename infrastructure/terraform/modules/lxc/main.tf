@@ -6,7 +6,7 @@ resource "proxmox_lxc" "lxc" {
   cmode        = "shell"
   memory       = var.memory
   onboot       = true
-  start        = false
+  start        = var.start
   unprivileged = false
   vmid         = var.vmid
 
