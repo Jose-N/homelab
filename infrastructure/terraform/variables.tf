@@ -49,10 +49,11 @@ variable "load_balancers" {
     vmid        = number
     rootfs_size = string
     ip          = string
+    gateway     = string
   }))
   default = [
-    { hostname = "lb-01", memory = 2000, vmid = 100, rootfs_size = "16G", ip = "192.168.1.10/24" },
-    { hostname = "lb-02", memory = 2000, vmid = 101, rootfs_size = "16G", ip = "192.168.1.11/24" },
+    { hostname = "lb-01", memory = 2000, vmid = 100, rootfs_size = "16G", ip = "192.168.1.10/24", gateway = "192.168.1.1" },
+    { hostname = "lb-02", memory = 2000, vmid = 101, rootfs_size = "16G", ip = "192.168.1.11/24", gateway = "192.168.1.1" },
   ]
 }
 
@@ -64,13 +65,14 @@ variable "k3s_nodes" {
     vmid        = number
     rootfs_size = string
     ip          = string
+    gateway     = string
   }))
   default = [
-    { hostname = "k8s-server-001", memory = 2000, vmid = 200, rootfs_size = "16G", ip = "192.168.1.20/24" },
-    { hostname = "k8s-server-002", memory = 2000, vmid = 201, rootfs_size = "16G", ip = "192.168.1.21/24" },
-    { hostname = "k8s-server-003", memory = 2000, vmid = 202, rootfs_size = "16G", ip = "192.168.1.22/24" },
-    { hostname = "k8s-worker-001", memory = 1000, vmid = 300, rootfs_size = "16G", ip = "192.168.1.23/24" },
-    { hostname = "k8s-worker-002", memory = 1000, vmid = 301, rootfs_size = "16G", ip = "192.168.1.24/24" },
+    { hostname = "k8s-server-001", memory = 2000, vmid = 200, rootfs_size = "16G", ip = "192.168.1.20/24", gateway = "192.168.1.1" },
+    { hostname = "k8s-server-002", memory = 2000, vmid = 201, rootfs_size = "16G", ip = "192.168.1.21/24", gateway = "192.168.1.1" },
+    { hostname = "k8s-server-003", memory = 2000, vmid = 202, rootfs_size = "16G", ip = "192.168.1.22/24", gateway = "192.168.1.1" },
+    { hostname = "k8s-worker-001", memory = 1000, vmid = 300, rootfs_size = "16G", ip = "192.168.1.23/24", gateway = "192.168.1.1" },
+    { hostname = "k8s-worker-002", memory = 1000, vmid = 301, rootfs_size = "16G", ip = "192.168.1.24/24", gateway = "192.168.1.1" },
   ]
 }
 

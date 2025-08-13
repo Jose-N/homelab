@@ -1,0 +1,53 @@
+all:
+  hosts:
+    lb-001:
+      ansible_host: 192.168.1.10
+      ansible_user: root
+      ansible_private_ssh_key_file:
+      vars:
+        state: MASTER
+        priority: 200
+    lb-002:
+      ansible_host: 192.168.1.11
+      ansible_user: root
+      ansible_private_ssh_key_file:
+      vars:
+        state: BACKUP
+        priority: 200
+    k3s-server-001:
+      ansible_host: 192.168.1.20
+      ansible_user: root
+      ansible_private_ssh_key_file:
+    k3s-server-002:
+      ansible_host: 192.168.1.21
+      ansible_user: root
+      ansible_private_ssh_key_file:
+    k3s-server-003:
+      ansible_host: 192.168.1.22
+      ansible_user: root
+      ansible_private_ssh_key_file:
+    k3s-agent-001:
+      ansible_host: 192.168.1.23
+      ansible_user: root
+      ansible_private_ssh_key_file:
+    k3s-agent-002:
+      ansible_host: 192.168.1.24
+      ansible_user: root
+      ansible_private_ssh_key_file:
+  children:
+    loadbalancers:
+      hosts:
+        lb-001:
+        lb-002:
+    k3s-server-nodes:
+      hosts:
+        k3s-server-002:
+        k3s-server-003:
+    k3s-agent-nodes:
+      hosts:
+        k3s-agent-001:
+        k3s-agent-002:
+  vars:
+    k3s_token: jpnjwhpPcgmn6CaxgTeb
+    original_server: 192.186.1.20
+    tls_san: 192.168.1.12

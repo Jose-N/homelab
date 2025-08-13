@@ -1,0 +1,23 @@
+# Set up HAProxy
+---
+- name: Install HAProxy & Keepalived
+  apt:
+    name: 
+      - haproxy
+      - keepalived
+
+- name: Generate haproxy.cfg
+  template:
+    src: ../templates/haproxy_cfg.j2
+    dest: etc/haproxy/haproxy.cfg
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Generate keepalived.conf
+  template:
+    src: ../templates/keepalived_conf.j2
+    dest: etc/haproxy/haproxy.cfg
+    owner: root
+    group: root
+    mode: '0644'

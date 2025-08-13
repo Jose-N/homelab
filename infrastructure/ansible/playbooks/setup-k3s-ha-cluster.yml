@@ -1,0 +1,16 @@
+# Setup an K3s HA Cluster with HAProxy
+---
+- name: Init K3s cluster
+  hosts: k3s-server-001
+  roles:
+    - role: k3s_server_init
+
+- name: Add K3s server nodes to cluster
+  hosts: k3s-server-nodes
+  roles:
+    - role: k3s_server_add
+
+- name: Setup HAProxy
+  hosts: loadbalancers
+  roles:
+    - role: haproxy_setup

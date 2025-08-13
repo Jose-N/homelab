@@ -44,4 +44,10 @@ variable "ip" {
   type = string
 }
 
+variable "gateway" {
+  description = "The gateway for the LXC to use"
+  type = string
+}
+
+
 
