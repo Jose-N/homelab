@@ -28,6 +28,13 @@
     - role: curl
   tags: k3s_curl
 
+- name: Setup kmsh on k3s nodes
+  hosts: k3s-nodes
+  become: true
+  roles:
+    - role: kmsg
+  tags: k3s_kmsg
+
 - name: Init K3s cluster
   hosts: k3s-server-001
   become: true
@@ -40,9 +47,11 @@
   become: true
   roles:
     - role: k3s_server_add
+  tags: k3s_server_add
 
 - name: Add K3s agent nodes to cluster
   hosts: k3s-agent-nodes
   become: true
   roles:
     - role: k3s_agent_add
+  tags: k3s_agent_add

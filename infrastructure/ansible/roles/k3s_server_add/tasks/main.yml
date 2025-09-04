@@ -1,4 +1,4 @@
 # Add a k3s server to an existing cluster
 ---
 - name: Adding a K3s server to an existing cluster
-  shell: curl -sfL https://get.k3s.io | K3S_TOKEN={{ k3s_token }} sh -s - server --server https://{{ original_server }}:6443 --tls-san={{ tls_san }}
+  shell: "curl -sfL https://get.k3s.io | K3S_TOKEN={{ k3s_token }} sh -s - server --server https://{{ original_server }}:6443 --tls-san={{ tls_san }}"

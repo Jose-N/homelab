@@ -1,4 +1,4 @@
 # Add a k3s agent to an existing cluster
 ---
 - name: Adding K3s agent to an existing cluster
-  shell: curl -sL https://get.k3s.io | K3S_TOKEN={{ k3s_token }} sh -s - agent --server https://{{ original_server }}:6443
+  shell: "curl -sL https://get.k3s.io | K3S_TOKEN={{ k3s_token }} sh -s - agent --server https://{{ original_server }}:6443"
