@@ -1,4 +1,0 @@
-# Vars to init a HA k3s server
----
-k3s_token:
-tls_san:

@@ -1,4 +1,4 @@
 # Init a k3s server for HA
 ---
 - name: Initalizing a HA K3s server
-  shell: /bin/sh curl -sfL https://get.k3s.io | K3S_TOKEN="{{ k3s_token }}" sh -s - server --cluster-init --tls-san="{{ tls_san }}"
+  shell: "curl -sfL https://get.k3s.io | K3S_TOKEN={{ k3s_token }} sh -s - server --cluster-init --tls-san={{ tls_san }}"

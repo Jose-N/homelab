@@ -1,4 +1,0 @@
-# Vars to add a k3s agent to an existing cluster
----
-k3s_token:
-orginal_server:

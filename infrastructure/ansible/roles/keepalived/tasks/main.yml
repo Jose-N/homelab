@@ -1,0 +1,16 @@
+# Set up HAProxy
+---
+- name: Install Keepalived
+  apt:
+    name: keepalived
+
+- name: Generate keepalived.conf
+  template:
+    src: ../templates/keepalived_conf.j2
+    dest: /etc/keepalived/keepalived.conf
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Restart KeepAlived
+  shell: systemctl restart keepalived

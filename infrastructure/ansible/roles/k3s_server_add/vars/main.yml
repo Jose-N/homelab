@@ -1,5 +1,0 @@
-# Vars to add a k3s server to an existing cluster
----
-k3s_token:
-orginal_server:
-tls_san:

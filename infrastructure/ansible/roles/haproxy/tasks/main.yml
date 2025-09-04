@@ -1,0 +1,16 @@
+# Set up HAProxy
+---
+- name: Install HAProxy
+  apt:
+    name: haproxy
+
+- name: Generate haproxy.cfg
+  template:
+    src: ../templates/haproxy_cfg.j2
+    dest: /etc/haproxy/haproxy.cfg
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Restart HAProcy
+  shell: systemctl restart haproxy

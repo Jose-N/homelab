@@ -1,0 +1,18 @@
+# Update Ubuntu
+---
+- name: Update apt cache
+  apt:
+    update_cache: yes
+
+- name: Perform dist-upgrade
+  apt:
+    upgrade: dist
+
+- name: Check for reboot
+  stat:
+    path: /var/run/reboot-required
+  register: reboot_required_file
+
+- name: Reboot if required
+  reboot:
+  when: reboot_required_file.stat.exists
