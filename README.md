@@ -3,6 +3,10 @@ Contains Terraform, Ansible, an scripts for setting up our Homelab
 
 Discard all of the below, wanted to used LXC because cpu for tf-hv-01 does not support hardware virtualization but GPU is dead anyway. Need to use VM's for HA K3s cluster since LXC does not allow access to overlay and br_netfliter modules and cause second server k3s to fail to start.
 
+Using cloud-init [Getting Started](https://registry.terraform.io/providers/Telmate/proxmox/latest/docs/guides/cloud-init%2520getting%2520started)
+
+Ubuntu 24.04 LTS cloud image: [image](https://cloud-images.ubuntu.com/daily/server/server/noble/current/)
+
 ## Random Notes
 How to get LXC ipaddr
 ```
