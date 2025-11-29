@@ -19,6 +19,7 @@ Everything is declarative, version-controlled, and repeatable.
 
 ## Repository Structure
 
+```
 ├── modules/                  # Reusable modules
 │   ├── vm/                   # Full VM module (cloud-init, disks, network, etc.)
 │   ├── lxc/                  # LXC container module
@@ -36,6 +37,7 @@ Everything is declarative, version-controlled, and repeatable.
 ├── .terraform-version        # Specifies Terraform version (recommended)
 ├── .terraform.lock.hcl
 └── README.md                 # You are here
+```
 
 
 ## Prerequisites
