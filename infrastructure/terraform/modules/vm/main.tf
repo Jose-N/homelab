@@ -1,9 +1,9 @@
 resource "proxmox_vm_qemu" "cloudinit-example" {
   vmid        = 100
   name        = "test-terraform0"
-  target_node = "pve"
+  target_node = "pve-01"
   agent       = 1
-  cores       = 2
+  cpu         { cores = 2 } 
   memory      = 1024
   boot        = "order=scsi0" # has to be the same as the OS disk of the template
   clone       = "debian12-cloudinit" # The name of the template
@@ -33,7 +33,8 @@ resource "proxmox_vm_qemu" "cloudinit-example" {
         disk {
           storage = "local-lvm"
           # The size of the disk should be at least as big as the disk in the template. If it's smaller, the disk will be recreated
-          size    = "2G" 
+          # Bumped this up to 10G was failing at 2G
+          size    = "10G" 
         }
       }
     }
@@ -51,14 +52,5 @@ resource "proxmox_vm_qemu" "cloudinit-example" {
     id = 0
     bridge = "vmbr0"
     model  = "virtio"
-  }
-}
-
-terraform {
-  required_providers {
-    proxmox = {
-      source = "Telmate/proxmox"
-      version = "3.0.1rc4"
-    }
   }
 }
