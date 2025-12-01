@@ -17,3 +17,8 @@ variable "target_node" {
   description = "Proxmox node to target for changes"
   type = string
 }
+
+variable "komodo_vm_pass" {
+  description = "Password for root user of komodo vm"
+  type = string
+}

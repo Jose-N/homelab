@@ -22,3 +22,13 @@ variable "memory" {
   description = "Amount of memory to provision for VM"
   type = number
 }
+
+variable "ipconfig0" {
+  description = "Network configuration for VM"
+  type = string
+}
+
+variable "cipassword" {
+  description = "Password for root user of VM"
+  type = string
+}
