@@ -1,0 +1,8 @@
+# Setup an VM with Komodo
+---
+- name: Updates Server
+  hosts: komodo
+  become: true
+  roles:
+    - role: debian_update
+  tags: debian_update
