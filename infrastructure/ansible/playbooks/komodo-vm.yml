@@ -1,8 +1,15 @@
 # Setup an VM with Komodo
 ---
-- name: Updates Server
+- name: Update Server
   hosts: komodo
   become: true
   roles:
     - role: debian_update
   tags: debian_update
+
+- name: Install Docker
+  hosts: komodo
+  become: true
+  roles:
+    - role: geerlingguy.docker
+  tags: install_docker
