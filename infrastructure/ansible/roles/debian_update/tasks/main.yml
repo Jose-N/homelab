@@ -1,0 +1,27 @@
+# Update Debian
+---
+- name: Update apt package cache
+  ansible.builtin.apt:
+    update_cache: yes
+    cache_valid_time: 3600 # Optional: set cache to 1 hour (in seconds)
+
+- name: Upgrade all packages to the latest version
+  ansible.builtin.apt:
+    upgrade: dist
+
+- name: Check if a reboot is required
+  ansible.builtin.stat:
+    path: /var/run/reboot-required
+  register: reboot_required_file
+
+- name: Reboot the server if a new kernel was installed
+  ansible.builtin.reboot:
+    msg: "Rebooting host after kernel update"
+    reboot_timeout: 300 # Optional: wait up to 300 seconds for the reboot to complete
+  when: reboot_required_file.stat.exists
+  register: reboot_result
+
+- name: Wait for the system to be ready after reboot
+  ansible.builtin.wait_for_connection:
+    timeout: 300 # Optional: wait for up to 300 seconds for the host to come back online
+  when: reboot_required_file.stat.exists and reboot_result.rebooted
