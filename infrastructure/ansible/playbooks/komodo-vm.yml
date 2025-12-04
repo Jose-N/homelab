@@ -13,3 +13,30 @@
   roles:
     - role: geerlingguy.docker
   tags: install_docker
+
+- name: Copy Komodo folder to remote
+  hosts: komodo
+  tasks:
+    - name: Copy
+      ansible.builtin.copy:
+        src: ../../../applications/komodo  # Copies contents of the directory
+        dest: ~/
+  tags: copy_komodo
+
+- name: Run using a project directory
+  hosts: komodo
+  tasks:
+    - name: Tear down existing services
+      community.docker.docker_compose_v2:
+        project_src: ~/komodo
+        state: absent
+
+    - name: Create and start services
+      community.docker.docker_compose_v2:
+        project_src: ~/komodo
+      register: output
+
+    - name: Show results
+      ansible.builtin.debug:
+        var: output
+  tags: install_komodo
