@@ -18,7 +18,7 @@ variable "target_node" {
   type = string
 }
 
-variable "komodo_vm_pass" {
+variable "traefik_vm_pass" {
   description = "Password for root user of komodo vm"
   type = string
 }
