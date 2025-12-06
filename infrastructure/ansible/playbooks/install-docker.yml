@@ -1,0 +1,15 @@
+# Install Docker onto Docker Swarm nodes
+---
+- name: Update Server
+  hosts: docker-swarm
+  become: true
+  roles:
+    - role: debian_update
+  tags: update_debian
+
+- name: Install Docker
+  hosts: docker-swarm
+  become: true
+  roles:
+    - role: geerlingguy.docker
+  tags: install_docker
