@@ -8,6 +8,11 @@ variable "name" {
   type = string
 }
 
+variable "description" {
+  description = "Description of the VM"
+  type = string
+}
+
 variable "target_node" {
   description = "Proxmox node to target for changes"
   type = string
