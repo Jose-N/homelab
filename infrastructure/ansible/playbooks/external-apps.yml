@@ -1,0 +1,49 @@
+# Setup external-apps
+---
+- name: Update Server
+  hosts: external-apps
+  become: true
+  roles:
+    - role: debian_update
+  tags: debian_update
+
+- name: Install Docker
+  hosts: external-apps
+  become: true
+  roles:
+    - role: geerlingguy.docker
+  tags: install_docker
+
+- name: Install Karakeep
+  hosts: external-apps
+  tasks:
+    - name: Check if karakeep is on the machine
+      ansible.builtin.stat:
+        path: /karakeep
+      register: karakeep_status
+
+    - name: Display message if karakeep is on the machine
+      ansible.builtin.debug:
+        msg: "The directory /karakeep exists."
+      when: karakeep_status.stat.exists and karakeep_status.stat.isdir
+
+    - name: Tear down existing services
+      community.docker.docker_compose_v2:
+        project_src: /karakeep
+        state: absent
+      when: karakeep_status.stat.exists
+
+    - name: Copy karakeep to remote machine
+      ansible.builtin.copy:
+        src: ../../../applications/karakeep/docker/  # Copies contents of the directory
+        dest: /karakeep
+
+    - name: Create and start services
+      community.docker.docker_compose_v2:
+        project_src: /karakeep
+      register: output
+
+    - name: Show results
+      ansible.builtin.debug:
+        var: output
+  tags: install_karakeep
