@@ -19,6 +19,7 @@
         virtualenv_command: "python3 -m venv"
         name:
           - docker
+          - jsondiff
 
     - name: Set python interpreter to use venv
       ansible.builtin.set_fact:
@@ -98,5 +99,22 @@
         join_token: "{{ join_token }}"
         remote_addrs: ['192.168.1.10:2377']
   tags: setup_external_apps_node
+
+- name: Create a Registry for Docker Swarm
+  hosts: docker-swarm-manager
+  tasks:
+    - name: Set python interpreter to use venv
+      ansible.builtin.set_fact:
+        ansible_python_interpreter: "/docker-swarm/venv/bin/python"
+
+    - name: Create a Docker Swarm Registry
+      community.docker.docker_swarm_service:
+        name: registry
+        image: registry:2
+        publish:
+          - published_port: 5000
+            target_port: 500
+        state: present
+  tags: create_docker_swarm_registry
 
 
