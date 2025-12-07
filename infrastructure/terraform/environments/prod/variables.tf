@@ -18,6 +18,11 @@ variable "target_node" {
   type = string
 }
 
+variable "adguard_home_vm_pass" {
+  description = "Password for root user of adguard home vm"
+  type = string
+}
+
 variable "docker_swarm_manager_vm_pass" {
   description = "Password for root user of docker swarm manager vm"
   type = string

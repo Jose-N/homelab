@@ -9,6 +9,9 @@ all:
     external-apps:
       ansible_host: 192.168.1.12
       ansible_user: root
+    adguard-home:
+      ansible_host: 192.168.1.9
+      ansible_user: root
   children:
     docker-swarm:
       hosts:

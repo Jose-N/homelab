@@ -1,6 +1,7 @@
 resource "proxmox_vm_qemu" "debian12" {
   vmid        = var.vmid
   name        = var.name
+  description = var.description
   target_node = var.target_node
   agent       = 1
   cpu         { cores = var.cores } 
