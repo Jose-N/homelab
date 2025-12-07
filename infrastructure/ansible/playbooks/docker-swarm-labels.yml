@@ -1,6 +1,6 @@
 # Label Docker Swarm Nodes
 ---
-- name: Label Interal Apps Node
+- name: Label Internal Apps Node
   hosts: docker-swarm-manager
   tasks:
     - name: Set python interpreter to use venv

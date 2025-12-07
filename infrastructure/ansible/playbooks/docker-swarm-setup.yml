@@ -113,7 +113,7 @@
         image: registry:2
         publish:
           - published_port: 5000
-            target_port: 500
+            target_port: 5000
         state: present
   tags: create_docker_swarm_registry
 
