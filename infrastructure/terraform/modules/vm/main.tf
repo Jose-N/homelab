@@ -1,6 +1,7 @@
-resource "proxmox_vm_qemu" "vm-debian12" {
+resource "proxmox_vm_qemu" "debian12" {
   vmid        = var.vmid
   name        = var.name
+  description = var.description
   target_node = var.target_node
   agent       = 1
   cpu         { cores = var.cores } 
@@ -19,7 +20,9 @@ resource "proxmox_vm_qemu" "vm-debian12" {
   skip_ipv6  = true
   ciuser     = "root"
   cipassword = var.cipassword
-  sshkeys    = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAu8ek7XKU/Aw/oEmC3vPqVgPr6Iv10h3Q//7QMb35el ansible"
+  sshkeys    = <<EOF
+    ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAu8ek7XKU/Aw/oEmC3vPqVgPr6Iv10h3Q//7QMb35el ansible
+EOF
 
   # Most cloud-init images require a serial device for their display
   serial {

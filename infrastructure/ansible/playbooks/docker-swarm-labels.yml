@@ -1,0 +1,29 @@
+# Label Docker Swarm Nodes
+---
+- name: Label Internal Apps Node
+  hosts: docker-swarm-manager
+  tasks:
+    - name: Set python interpreter to use venv
+      ansible.builtin.set_fact:
+        ansible_python_interpreter: "/docker-swarm/venv/bin/python"
+
+    - name: Set internal node label
+      community.docker.docker_node:
+        hostname: internal-apps
+        labels:
+          node: internal
+  tags: label_internal_apps_node
+
+- name: Label External Apps Node
+  hosts: docker-swarm-manager
+  tasks:
+    - name: Set python interpreter to use venv
+      ansible.builtin.set_fact:
+        ansible_python_interpreter: "/docker-swarm/venv/bin/python"
+
+    - name: Set external node label
+      community.docker.docker_node:
+        hostname: external-apps
+        labels:
+          node: external
+  tags: label_external_apps_node

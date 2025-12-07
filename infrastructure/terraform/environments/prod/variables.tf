@@ -18,7 +18,22 @@ variable "target_node" {
   type = string
 }
 
-variable "komodo_vm_pass" {
-  description = "Password for root user of komodo vm"
+variable "adguard_home_vm_pass" {
+  description = "Password for root user of adguard home vm"
+  type = string
+}
+
+variable "docker_swarm_manager_vm_pass" {
+  description = "Password for root user of docker swarm manager vm"
+  type = string
+}
+
+variable "internal_vm_pass" {
+  description = "Password for root user of internal apps vm"
+  type = string
+}
+
+variable "external_vm_pass" {
+  description = "Password for root user of external apps vm"
   type = string
 }

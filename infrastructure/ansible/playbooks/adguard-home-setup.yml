@@ -1,0 +1,50 @@
+# Setup server with Adguard Home
+---
+- name: Install Docker
+  hosts: adguard-home
+  become: true
+  roles:
+    - role: geerlingguy.docker
+  tags: install_docker
+
+- name: Install Adguard Home
+  hosts: adguard-home
+  tasks:
+    - name: Check if Adguard Home is on the machine
+      ansible.builtin.stat:
+        path: /adguard-home
+      register: adguard_home_status
+
+    - name: Display message if Adguard Home is on the machine
+      ansible.builtin.debug:
+        msg: "The directory /adguard-home exists."
+      when: adguard_home_status.stat.exists and adguard_home_status.stat.isdir
+
+    - name: Tear down existing services
+      community.docker.docker_compose_v2:
+        project_src: /adguard-home
+        state: absent
+      when: adguard_home_status.stat.exists
+
+    - name: Copy Adguard Home to remote machine
+      ansible.builtin.copy:
+        src: ../../../applications/adguard-home  # Copies contents of the directory
+        dest: /
+
+    - name: Replace resolved.conf with custom resolved.conf
+      ansible.builtin.copy:
+        src: ../../../applications/adguard-home/resolved.conf  # Copies contents of the directory
+        dest: /etc/systemd/resolved.conf
+
+    - name: Restart systemd-resolved
+      ansible.builtin.shell: "sudo service systemd-resolved restart"
+
+    - name: Create and start services
+      community.docker.docker_compose_v2:
+        project_src: /adguard-home
+      register: output
+
+    - name: Show results
+      ansible.builtin.debug:
+        var: output
+  tags: install_adguard_home

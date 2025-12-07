@@ -1,0 +1,120 @@
+# Setup Docker Swarm
+---
+- name: Setup Manager Node
+  hosts: docker-swarm-manager 
+  tasks:
+    - name: Ensure pip is installed (if needed)
+      ansible.builtin.package:
+        name: python3-pip # Or python-pip on older systems
+        state: present
+
+    - name: Install python3-venv
+      ansible.builtin.package:
+        name: python3-venv
+        state: present
+
+    - name: Create python venv and install packages
+      ansible.builtin.pip:
+        virtualenv: "/docker-swarm/venv"
+        virtualenv_command: "python3 -m venv"
+        name:
+          - docker
+          - jsondiff
+
+    - name: Set python interpreter to use venv
+      ansible.builtin.set_fact:
+        ansible_python_interpreter: "/docker-swarm/venv/bin/python"
+
+    - name: Init a new swarm with default parameters
+      community.docker.docker_swarm:
+        state: present
+        advertise_addr: 192.168.1.10
+      register: JoinTokens
+
+    - name: Show JoinTokens
+      ansible.builtin.debug:
+        var: JoinTokens
+  tags: setup_manager_node
+
+- name: Setup Internal Apps Node
+  hosts: internal-apps
+  tasks:
+    - name: Ensure pip is installed (if needed)
+      ansible.builtin.package:
+        name: python3-pip # Or python-pip on older systems
+        state: present
+
+    - name: Install python3-venv
+      ansible.builtin.package:
+        name: python3-venv
+        state: present
+
+    - name: Create python venv and install packages
+      ansible.builtin.pip:
+        virtualenv: "/docker-swarm/venv"
+        virtualenv_command: "python3 -m venv"
+        name:
+          - docker
+
+    - name: Set python interpreter to use venv
+      ansible.builtin.set_fact:
+        ansible_python_interpreter: "/docker-swarm/venv/bin/python"
+
+    - name: Add nodes
+      community.docker.docker_swarm:
+        state: join
+        advertise_addr: 192.168.1.11
+        join_token: "{{ join_token }}"
+        remote_addrs: ['192.168.1.10:2377']
+  tags: setup_internal_apps_node
+  
+- name: Setup External Apps Node
+  hosts: external-apps
+  tasks:
+    - name: Ensure pip is installed (if needed)
+      ansible.builtin.package:
+        name: python3-pip # Or python-pip on older systems
+        state: present
+
+    - name: Install python3-venv
+      ansible.builtin.package:
+        name: python3-venv
+        state: present
+
+    - name: Create python venv and install packages
+      ansible.builtin.pip:
+        virtualenv: "/docker-swarm/venv"
+        virtualenv_command: "python3 -m venv"
+        name:
+          - docker
+
+    - name: Set python interpreter to use venv
+      ansible.builtin.set_fact:
+        ansible_python_interpreter: "/docker-swarm/venv/bin/python"
+
+    - name: Add nodes
+      community.docker.docker_swarm:
+        state: join
+        advertise_addr: 192.168.1.12
+        join_token: "{{ join_token }}"
+        remote_addrs: ['192.168.1.10:2377']
+  tags: setup_external_apps_node
+
+- name: Create a Registry for Docker Swarm
+  hosts: docker-swarm-manager
+  tasks:
+    - name: Set python interpreter to use venv
+      ansible.builtin.set_fact:
+        ansible_python_interpreter: "/docker-swarm/venv/bin/python"
+
+    - name: Create a Docker Swarm Registry
+      community.docker.docker_swarm_service:
+        name: registry
+        image: registry:2
+        publish:
+          - published_port: 5000
+            target_port: 5000
+        state: present
+  tags: create_docker_swarm_registry
+
+

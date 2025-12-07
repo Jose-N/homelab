@@ -1,0 +1,29 @@
+# Install internal apps
+---
+- name: Install Docker
+  hosts: docker-swarm-manager
+  become: true
+  roles:
+    - role: geerlingguy.docker
+  tags: install_docker
+
+- name: Install Traefik
+  hosts: docker-swarm-manager
+  tasks:
+    - name: Set python interpreter to use venv
+      ansible.builtin.set_fact:
+        ansible_python_interpreter: "/docker-swarm/venv/bin/python"
+
+    - name: Copy Traefik dir to remote machine
+      ansible.builtin.copy:
+        src: ../../../applications/traefik  # Copies contents of the directory
+        dest: /
+
+    - name: Run Docker Stack
+      community.docker.docker_stack:
+        state: present
+        name: traefik
+        with_registry_auth: true
+        compose:
+          - /traefik/docker-compose.yml
+  tags: install_traefik
