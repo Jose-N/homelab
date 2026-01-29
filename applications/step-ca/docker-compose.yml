@@ -1,0 +1,45 @@
+services:
+    step-ca:
+        image: smallstep/step-ca
+        networks:
+          - traefik_proxy
+        ports:
+        - target: 9000
+          published: 9000
+          protocol: tcp
+          mode: host
+        volumes:
+            - /step-ca:/home/step
+        environment:
+            - DOCKER_STEPCA_INIT_NAME=DARKFLEETLABS INTERNAL
+            - DOCKER_STEPCA_INIT_DNS_NAMES=darkfleetlabs.internal
+            - DOCKER_STEPCA_INIT_PROVISIONER_NAME=jose.c.naylor@gmail.com
+            - DOCKER_STEPCA_INIT_REMOTE_MANAGEMENT=true
+            - DOCKER_STEPCA_INIT_ACME
+        deploy:
+          placement:
+            constraints:
+              - "node.hostname == internal-apps"
+          labels:
+            - "traefik.enable=true"
+
+            # CA router
+            - "traefik.http.routers.ca.rule=Host(`ca.darkfleetlabs.internal`)"
+            - "traefik.http.routers.ca.entrypoints=ca"
+
+            - "traefik.http.services.traefik.loadbalancer.server.port=8080"
+
+        version: '3.8'
+
+volumes:
+  my-nfs-volume:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=<NFS_SERVER_IP>,rw,vers=4
+      device: :<path/to/share>
+
+networks:
+  traefik_proxy:
+    driver: overlay
+    attachable: true

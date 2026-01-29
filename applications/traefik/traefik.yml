@@ -1,0 +1,32 @@
+api:
+  dashboard: true
+  insecure: true
+
+providers:
+  swarm:
+    endpoint: "unix:///var/run/docker.sock"
+    watch: true
+    exposedbydefault: false
+    network: "traefik_traefik_proxy"
+
+entrypoints:
+  web:
+    address: ":80"
+    http:
+      redirections:
+        entryPoint:
+          to: "websecure"
+          scheme: "https"
+          permanent: true
+  websecure:
+    address: ":443"
+    http:
+      tls: true
+  ca:
+    address: ":9000"
+    http:
+      tls: true
+
+log:
+  level: "INFO"
+accesslog: true

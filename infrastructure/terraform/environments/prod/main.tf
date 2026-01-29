@@ -22,26 +22,38 @@ module "prod-docker-swarm-manager" {
   cipassword      = var.docker_swarm_manager_vm_pass
 }
 
-module "prod-internal-apps" {
+module "prod-docker-swarm-worker-1" {
   source          = "../../modules/vm"
   vmid            = 101
-  name            = "internal-apps"
-  description     = "VM that contains all applications that will access only on the internal network" 
+  name            = "docker-swarm-worker-1"
+  description     = "Worker for Docker Swarm" 
   target_node     = var.target_node
   cores           = 1
-  memory          = 4096
+  memory          = 3072
   ipconfig0       = "ip=192.168.1.11/24,gw=192.168.1.1,ip6=dhcp"
-  cipassword      = var.internal_vm_pass
+  cipassword      = var.docker_swarm_worker_1_vm_pass
 }
 
-module "prod-external-apps" {
+module "prod-docker-swarm-worker-2" {
   source          = "../../modules/vm"
   vmid            = 102
-  name            = "external-apps"
-  description     = "VM that contains all the application that will be access from the internet" 
+  name            = "docker-swarm-worker-2"
+  description     = "Worker for Docker Swarm" 
   target_node     = var.target_node
   cores           = 1
-  memory          = 4096
+  memory          = 3072
   ipconfig0       = "ip=192.168.1.12/24,gw=192.168.1.1,ip6=dhcp"
-  cipassword      = var.external_vm_pass
+  cipassword      = var.docker_swarm_worker_2_vm_pass
+}
+
+module "prod-docker-swarm-worker-3-gpu" {
+  source          = "../../modules/vm"
+  vmid            = 102
+  name            = "docker-swarm-worker-3-gpu"
+  description     = "Worker for Docker Swarm" 
+  target_node     = var.target_node
+  cores           = 1
+  memory          = 3072
+  ipconfig0       = "ip=192.168.1.13/24,gw=192.168.1.1,ip6=dhcp"
+  cipassword      = var.docker_swarm_worker_3_gpu_vm_pass
 }

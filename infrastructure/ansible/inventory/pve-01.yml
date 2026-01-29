@@ -3,11 +3,14 @@ all:
     docker-swarm-manager:
       ansible_host: 192.168.1.10
       ansible_user: root
-    internal-apps:
+    docker-swarm-worker-1:
       ansible_host: 192.168.1.11
       ansible_user: root
-    external-apps:
+    docker-swarm-worker-2:
       ansible_host: 192.168.1.12
+      ansible_user: root
+    docker-swarm-worker-3-gpu:
+      ansible_host: 192.168.1.13
       ansible_user: root
     adguard-home:
       ansible_host: 192.168.1.9
@@ -20,3 +23,4 @@ all:
         external-apps:
   vars:
     ansible_python_interpreter: /usr/bin/python3
+    join_token: SWMTKN-1-1hwnzrcqhyl36iycfveoa1suiy8dpfwwezn1l72ishp0j3whwd-e9s8ehh89ikuou4bh0d18yzfl

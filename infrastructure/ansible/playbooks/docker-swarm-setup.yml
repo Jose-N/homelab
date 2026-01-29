@@ -36,8 +36,8 @@
         var: JoinTokens
   tags: setup_manager_node
 
-- name: Setup Internal Apps Node
-  hosts: internal-apps
+- name: Setup Worker Node 1
+  hosts: docker-swarm-worker-1
   tasks:
     - name: Ensure pip is installed (if needed)
       ansible.builtin.package:
@@ -66,10 +66,10 @@
         advertise_addr: 192.168.1.11
         join_token: "{{ join_token }}"
         remote_addrs: ['192.168.1.10:2377']
-  tags: setup_internal_apps_node
+  tags: setup_worker_node_1
   
-- name: Setup External Apps Node
-  hosts: external-apps
+- name: Setup Worker Node 2
+  hosts: docker-swarm-worker-2
   tasks:
     - name: Ensure pip is installed (if needed)
       ansible.builtin.package:
@@ -98,7 +98,7 @@
         advertise_addr: 192.168.1.12
         join_token: "{{ join_token }}"
         remote_addrs: ['192.168.1.10:2377']
-  tags: setup_external_apps_node
+  tags: setup_worker_node_2
 
 - name: Create a Registry for Docker Swarm
   hosts: docker-swarm-manager

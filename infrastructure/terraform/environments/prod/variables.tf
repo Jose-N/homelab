@@ -28,12 +28,17 @@ variable "docker_swarm_manager_vm_pass" {
   type = string
 }
 
-variable "internal_vm_pass" {
-  description = "Password for root user of internal apps vm"
+variable "docker_swarm_worker_1_vm_pass" {
+  description = "Password for docker swarm worker 1 vm"
   type = string
 }
 
-variable "external_vm_pass" {
-  description = "Password for root user of external apps vm"
+variable "docker_swarm_worker_2_vm_pass" {
+  description = "Password for docker swarm worker 2 vm"
+  type = string
+}
+
+variable "docker_swarm_worker_3_gpu_vm_pass" {
+  description = "Password for docker swarm worker 3 with a GPU vm"
   type = string
 }
