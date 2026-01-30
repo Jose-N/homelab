@@ -37,7 +37,7 @@ EOF
           storage = "local-lvm"
           # The size of the disk should be at least as big as the disk in the template. If it's smaller, the disk will be recreated
           # Bumped this up to 10G was failing at 2G
-          size    = "10G" 
+          size    = var.hd_size 
         }
       }
     }

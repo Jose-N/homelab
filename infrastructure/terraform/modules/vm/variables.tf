@@ -37,3 +37,8 @@ variable "cipassword" {
   description = "Password for root user of VM"
   type = string
 }
+
+variable "hd_size" {
+  description = "Size of Hard Drive space"
+  type = string
+}
