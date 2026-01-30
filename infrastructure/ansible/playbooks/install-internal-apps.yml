@@ -27,3 +27,24 @@
         compose:
           - /traefik/docker-compose.yml
   tags: install_traefik
+
+- name: Install Step-CA
+  hosts: docker-swarm-manager
+  tasks:
+    - name: Set python interpreter to use venv
+      ansible.builtin.set_fact:
+        ansible_python_interpreter: "/docker-swarm/venv/bin/python"
+
+    - name: Copy Step-CA dir to remote machine
+      ansible.builtin.copy:
+        src: ../../../applications/step-ca  # Copies contents of the directory
+        dest: /
+
+    - name: Run Docker Stack
+      community.docker.docker_stack:
+        state: present
+        name: step-ca
+        with_registry_auth: true
+        compose:
+          - /step-ca/docker-compose.yml
+  tags: install_step-ca

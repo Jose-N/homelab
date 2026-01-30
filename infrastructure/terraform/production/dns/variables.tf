@@ -22,23 +22,3 @@ variable "adguard_home_vm_pass" {
   description = "Password for root user of adguard home vm"
   type = string
 }
-
-variable "docker_swarm_manager_vm_pass" {
-  description = "Password for root user of docker swarm manager vm"
-  type = string
-}
-
-variable "docker_swarm_worker_1_vm_pass" {
-  description = "Password for docker swarm worker 1 vm"
-  type = string
-}
-
-variable "docker_swarm_worker_2_vm_pass" {
-  description = "Password for docker swarm worker 2 vm"
-  type = string
-}
-
-variable "docker_swarm_worker_3_gpu_vm_pass" {
-  description = "Password for docker swarm worker 3 with a GPU vm"
-  type = string
-}

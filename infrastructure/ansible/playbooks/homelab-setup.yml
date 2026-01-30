@@ -1,0 +1,49 @@
+# Setup Homelab
+---
+- name: Update Server
+  hosts: homelab
+  become: true
+  roles:
+    - role: debian_update
+  tags: debian_update
+
+- name: Install Docker
+  hosts: homelab
+  become: true
+  roles:
+    - role: geerlingguy.docker
+  tags: install_docker
+
+- name: Install Komodo
+  hosts: homelab
+  tasks:
+    - name: Check if komodo is on the machine
+      ansible.builtin.stat:
+        path: /komodo
+      register: komodo_status
+
+    - name: Display message if komodo is on the machine
+      ansible.builtin.debug:
+        msg: "The directory /komodo exists."
+      when: komodo_status.stat.exists and komodo_status.stat.isdir
+
+    - name: Tear down existing services
+      community.docker.docker_compose_v2:
+        project_src: /komodo
+        state: absent
+      when: komodo_status.stat.exists
+
+    - name: Copy komodo to remote machine
+      ansible.builtin.copy:
+        src: ../../../applications/komodo/  # Copies contents of the directory
+        dest: /komodo
+
+    - name: Create and start services
+      community.docker.docker_compose_v2:
+        project_src: /komodo
+      register: output
+
+    - name: Show results
+      ansible.builtin.debug:
+        var: output
+  tags: install_komodo
